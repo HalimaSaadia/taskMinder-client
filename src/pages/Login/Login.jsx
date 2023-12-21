@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthProvider";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
+import { FcGoogle } from "react-icons/fc";
 
 const Login = () => {
   const { register, handleSubmit } = useForm();
@@ -17,6 +18,25 @@ const Login = () => {
     const password = data.password;
     console.log(email, password);
     loginWithEmailAndPassword(email, password)
+      .then((result) => {
+        Swal.fire({
+          title: "Successfully Logged In",
+          icon: "success",
+        });
+        toast.remove(toastId);
+      })
+      .catch((error) => {
+        Swal.fire({
+          title: error.message,
+          icon: "error",
+        });
+        toast.remove(toastId);
+      });
+  };
+
+  const handleGoogleSignIn = () => {
+    const toastId = toast.loading("loading...");
+    loginWithGoogle()
       .then((result) => {
         Swal.fire({
           title: "Successfully Logged In",
@@ -62,20 +82,24 @@ const Login = () => {
                 required
               />
             </div>
-            <div className="form-control mt-6">
-              <button type="submit" className="btn btn-primary rounded-none">
+            <div className="form-control  mt-6">
+              <button type="submit" className="btn bg-[#14191E] rounded-none">
                 Login
               </button>
             </div>
           </form>
           <div className="form-control rounded-full px-7">
-            <button type="submit" className="btn  border-2 border-blue-400 rounded-none ">
-              Login
+            <button
+              onClick={handleGoogleSignIn}
+              type="submit"
+              className="btn bg-[#14191E]  rounded-none "
+            >
+              Login With Google <FcGoogle className="text-xl" />
             </button>
           </div>
-          <div>
+          <div className="text-center py-2">
             <p>
-              Don't Have Account? <Link to="/register">Sign Up</Link>
+              Don't Have Account? <Link className="text-blue-400" to="/register">Sign Up</Link>
             </p>
           </div>
         </div>

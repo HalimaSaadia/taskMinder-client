@@ -29,34 +29,31 @@ const Register = () => {
       const displayUrl = imageUrl.data?.data?.display_url;
 
       createUser(email, password)
-      .then((result) => {
-        Swal.fire({
-            title:"Successfully Registered",
-            icon:"success"
-        })
-        updateUserProfile(name, displayUrl)
-        .then(() => {}
-      
-        )
-        .catch(err=> {
-            toast.remove(toastId);
-      
-            Swal.fire({
-              title: err?.message,
-              icon: "error",
+        .then((result) => {
+          Swal.fire({
+            title: "Successfully Registered",
+            icon: "success",
+          });
+          updateUserProfile(name, displayUrl)
+            .then(() => {})
+            .catch((err) => {
+              toast.remove(toastId);
+
+              Swal.fire({
+                title: err?.message,
+                icon: "error",
+              });
             });
+          toast.remove(toastId);
         })
-        ;
-        toast.remove(toastId);
-      })
-      .catch(err => {
-        toast.remove(toastId);
-      
-        Swal.fire({
-          title: err?.message,
-          icon: "error",
+        .catch((err) => {
+          toast.remove(toastId);
+
+          Swal.fire({
+            title: err?.message,
+            icon: "error",
+          });
         });
-      })
     } catch (error) {
       toast.remove(toastId);
       console.log(error);
@@ -121,14 +118,21 @@ const Register = () => {
               />
             </div>
 
-            <div className="form-control mt-6">
-              <button type="submit" className="btn btn-primary rounded-none">
+            <div className="form-control mt-2">
+              <button type="submit" className="btn bg-[#14191E] rounded-none">
                 Sign Up
               </button>
             </div>
           </form>
-          
-          <div><p>Already Have Account? <Link className="text-blue-600" to="/login">Login</Link></p></div>
+
+          <div className="text-center">
+            <p>
+              Already Have Account?{" "}
+              <Link className="text-blue-400" to="/login">
+                Login
+              </Link>
+            </p>
+          </div>
         </div>
       </div>
     </div>
