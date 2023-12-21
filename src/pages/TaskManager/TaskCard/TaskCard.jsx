@@ -1,12 +1,17 @@
-import React from "react";
 
-const TaskCard = () => {
+
+
+const TaskCard = ({ task,border }) => {
+ console.log(border);
+  const { title, description, priority } = task;
   return (
-    <div className="card w-96 bg-neutral text-neutral-content">
-      <div className="card-body items-center text-center">
-        <h2 className="card-title">Cookies!</h2>
-        <p>We are using cookies for no reason.</p>
-      
+    <div className={`card rounded-none bg-neutral h-48 `} style={{borderTop:`5px solid ${border}`}}>
+      <div className="card-body px-3">
+        <h2 className="card-title  text-white">{title}</h2>
+        <p className="text-neutral-content">{description.slice(0, 100)} ...</p>
+        <p className="text-md font-bold">
+          <span className="text-white">Priority</span>: {priority}
+        </p>
       </div>
     </div>
   );
