@@ -3,24 +3,32 @@ import { Controller, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { AuthContext } from "../../../Provider/AuthProvider";
 import useAxiosPublic from "../../../Hooks/useAxiosPublic";
+import Swal from "sweetalert2";
 
 const AddNewTask = () => {
-    const axiosPublic = useAxiosPublic()
-  const { register, handleSubmit, control,reset } = useForm({
-    defaultValues:{
-        priority:"low",
-        status:"pending"
-    }
+  const axiosPublic = useAxiosPublic();
+  const { register, handleSubmit, control, reset } = useForm({
+    defaultValues: {
+      priority: "low",
+      status: "pending",
+    },
   });
-  const {user} = useContext(AuthContext)
+  const { user } = useContext(AuthContext);
   const onSubmit = (data) => {
-   
-    // const toastId = toast.loading("loading...");
-    const userEmail = user?.email
-    data.user = userEmail
-    axiosPublic.post("/add-task",data)
-    .then(result => console.log(result.data))
-    reset()
+    const toastId = toast.loading("loading...");
+    const userEmail = user?.email;
+    data.user = userEmail;
+    axiosPublic
+      .post("/add-task", data)
+      .then((result) => {
+        toast.success("Successfully added")
+        toast.remove(toastId);
+      })
+      .catch((error) => {
+        toast.error(error.message)
+        toast.remove(toastId);
+      });
+    reset();
   };
   return (
     <div className="flex justify-center py-5">
@@ -35,11 +43,7 @@ const AddNewTask = () => {
       <dialog id="my_modal_3" className="modal">
         <div className="modal-box rounded-none">
           <div className="card shrink-0 w-full h-fullshadow-2xl rounded-none bg-base-100">
-            <form
-            
-              className="card-body"
-              onSubmit={handleSubmit(onSubmit)}
-            >
+            <form className="card-body" onSubmit={handleSubmit(onSubmit)}>
               <div className="form-control">
                 <input
                   type="text"
@@ -71,17 +75,12 @@ const AddNewTask = () => {
                 <Controller
                   name="priority"
                   control={control}
-                  
                   render={({ field }) => (
                     <select
-                   
                       {...field}
                       className="select select-bordered w-full rounded-none  focus:outline-none"
-                  
                     >
-                      <option value="low">
-                        Low
-                      </option>
+                      <option value="low">Low</option>
                       <option value="moderate">Moderate</option>
                       <option value="high">High</option>
                     </select>
@@ -94,16 +93,12 @@ const AddNewTask = () => {
                   control={control}
                   render={({ field }) => (
                     <select
-                   
                       {...field}
-                     
                       className="select select-bordered w-full rounded-none  focus:outline-none"
-                    //  defaultValue="pending"
-                    placeholder="Status"
+                      //  defaultValue="pending"
+                      placeholder="Status"
                     >
-                      <option value="pending">
-                        Pending
-                      </option>
+                      <option value="pending">Pending</option>
                       <option value="on-going">On Going</option>
                       <option value="completed">Completed</option>
                     </select>
@@ -117,10 +112,9 @@ const AddNewTask = () => {
                 />
               </div>
               {/* if there is a button in form, it will close the modal */}
-              
             </form>
-            <form   method="dialog">
-            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 -top-2 ">
+            <form method="dialog">
+              <button className="btn btn-sm btn-circle btn-ghost absolute right-2 -top-2 ">
                 ✕
               </button>
             </form>

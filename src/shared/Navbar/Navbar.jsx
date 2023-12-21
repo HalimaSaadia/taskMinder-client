@@ -3,19 +3,11 @@ import { NavLink } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthProvider";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
+import icon from "../../assets/icon.png";
 
 const Navbar = () => {
   const { user, logout } = useContext(AuthContext);
-  const List = (
-    <>
-      <li>
-        <NavLink to="/">Home</NavLink>
-      </li>
-      <li>
-        <NavLink to="/task-manager">Task Manager</NavLink>
-      </li>
-    </>
-  );
+
   const handleLogout = () => {
     const toastId = toast.loading("loading...");
     logout()
@@ -34,6 +26,27 @@ const Navbar = () => {
         toast.remove(toastId);
       });
   };
+  const List = (
+    <>
+      <li>
+        <NavLink to="/">Home</NavLink>
+      </li>
+      <li>
+        <NavLink to="/task-manager">Task Manager</NavLink>
+      </li>
+      <li>
+        {" "}
+        {user ? (
+          <button onClick={handleLogout}>LogOut</button>
+        ) : (
+          <NavLink to="/login">
+            <button>Login</button>
+          </NavLink>
+        )}
+      </li>
+    </>
+  );
+
   return (
     <div>
       <div className="navbar bg-base-100 border-b-2 border-[#415a77]">
@@ -62,19 +75,44 @@ const Navbar = () => {
               {List}
             </ul>
           </div>
-          <div className="navbar-center hidden lg:flex">
-            <ul className="menu menu-horizontal px-1">{List}</ul>
+          <div className="flex items-center">
+            <img src={icon} alt="" className="w-16 hidden lg:inline" />
+            <a className="btn btn-ghost text-xl">TaskMinder</a>
           </div>
+        </div>
+        <div className="navbar-center hidden lg:flex">
+          <ul className="menu menu-horizontal px-1">{List}</ul>
         </div>
 
         <div className="navbar-end">
-          {user ? (
-            <button onClick={handleLogout}>LogOut</button>
-          ) : (
-            <NavLink to="/login">
-              <button>Login</button>
-            </NavLink>
-          )}
+          <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
+            <div className="indicator">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+                />
+              </svg>
+              <span className="badge badge-sm indicator-item">8</span>
+            </div>
+          </div>
+          <div
+            tabIndex={0}
+            role="button"
+            className="btn btn-ghost btn-circle avatar"
+          >
+            <div className="w-10 rounded-full">
+              <img alt="Tailwind CSS Navbar component" src={user?.photoURL} />
+            </div>
+          </div>
         </div>
       </div>
     </div>
