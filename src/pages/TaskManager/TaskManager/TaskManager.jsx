@@ -47,19 +47,19 @@ const TaskManager = () => {
         <div className="space-y-5 ">
             <h1 className="text-3xl text-center">TO DO</h1>
           {pendingTask?.map((task) => (
-            <TaskCard key={task._id} task={task} border="#ffbe0b" />
+            <TaskCard fetch={{pendingTaskRefetch,onGoingTaskRefetch,completedTaskRefetch}} key={task._id} task={task} border="#ffbe0b" />
           ))}
         </div>
         <div className="space-y-5">
         <h1 className="text-3xl text-center">ON GOING</h1>
           {onGoingTask?.map((task) => (
-            <TaskCard key={task._id} task={task} border="#DFA0AC" />
+            <TaskCard fetch={{pendingTaskRefetch,onGoingTaskRefetch,completedTaskRefetch}} key={task._id} task={task} border="#DFA0AC" />
           ))}
         </div>
         <div className="space-y-5">
         <h1 className="text-3xl text-center">Completed</h1>
           {completedTask?.map((task) => (
-            <TaskCard key={task._id} task={task} border="#5ECD88" />
+            <TaskCard fetch={{pendingTaskRefetch,onGoingTaskRefetch,completedTaskRefetch}} key={task._id} task={task} border="#5ECD88" />
           ))}
         </div>
       </div>
