@@ -24,12 +24,12 @@ const router = createBrowserRouter([
             {
                 path:"/register",
                 element: <Register />
+            },
+            {
+                path:"/task-manager",
+                element:<PrivateRoute><TaskManager /></PrivateRoute>
             }
         ]
-    },
-    {
-        path:"/task-manager",
-        element:<PrivateRoute><TaskManager /></PrivateRoute>
     }
 ])
 export default router

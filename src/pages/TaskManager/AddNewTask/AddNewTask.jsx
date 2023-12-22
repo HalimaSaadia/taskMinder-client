@@ -5,7 +5,9 @@ import { AuthContext } from "../../../Provider/AuthProvider";
 import useAxiosPublic from "../../../Hooks/useAxiosPublic";
 import Swal from "sweetalert2";
 
-const AddNewTask = () => {
+const AddNewTask = ({fetch}) => {
+  const {pendingTaskRefetch,onGoingTaskRefetch,completedTaskRefetch} = fetch
+  
   const axiosPublic = useAxiosPublic();
   const { register, handleSubmit, control, reset } = useForm({
     defaultValues: {
@@ -23,6 +25,9 @@ const AddNewTask = () => {
       .then((result) => {
         toast.success("Successfully added")
         toast.remove(toastId);
+        pendingTaskRefetch()
+        onGoingTaskRefetch()
+        completedTaskRefetch()
       })
       .catch((error) => {
         toast.error(error.message)
@@ -31,7 +36,7 @@ const AddNewTask = () => {
     reset();
   };
   return (
-    <div className="flex justify-center py-5">
+    <div className="flex justify-center py-5 mt-5">
       <button
         onClick={() => document.getElementById("my_modal_3").showModal()}
         className="btn bg-[#415a77] text-white rounded-none px-10"

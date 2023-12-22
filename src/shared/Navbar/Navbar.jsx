@@ -1,12 +1,13 @@
 import React, { useContext } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthProvider";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
 import icon from "../../assets/icon.png";
-
+import { FaUserCircle } from "react-icons/fa";
 const Navbar = () => {
   const { user, logout } = useContext(AuthContext);
+  const navigate = useNavigate()
 
   const handleLogout = () => {
     const toastId = toast.loading("loading...");
@@ -18,6 +19,7 @@ const Navbar = () => {
         });
         toast.remove(toastId);
       })
+      navigate("/")
       .catch((error) => {
         Swal.fire({
           title: error.message,
@@ -94,7 +96,7 @@ const Navbar = () => {
             className="btn btn-ghost btn-circle avatar"
           >
             <div className="w-10 rounded-full">
-              <img alt="Tailwind CSS Navbar component" src={user?.photoURL} />
+              {user ? <img alt="Tailwind CSS Navbar component" src={user?.photoURL} /> : <FaUserCircle className="text-4xl text-center" />}
             </div>
           </div>
         </div>
